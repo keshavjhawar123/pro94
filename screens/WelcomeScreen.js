@@ -9,7 +9,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  ScrollView
+  ScrollView,
 } from "react-native";
 
 import db from "../config";
@@ -29,47 +29,44 @@ export default class WelcomeScreen extends Component {
       address: "",
       contact: "",
       confirmPassword: "",
-      docId:"",
+      docId: "",
       isModalVisible: "false",
-      setLockModal:"false",
-      lock:""
+      setLockModal: "false",
+      lock: "",
     };
   }
-  setLock = ()=>{
+  setLock = () => {
     return (
-    <Modal
-    animationType="slide"
-    transparent={true}
-    visible={this.state.setLockModal}    
-  >
-    <View style={styles.scrollview}>
-       
-         <Text style={styles.label}>Set Lock </Text>
-            <TextInput  style={styles.formInput}
-              placeholder={"set lock"}
-              maxLength={12}
-              onChangeText={text => {
-                this.setState({
-                  lock: text
-                });
-              }}
-            />
-            <TouchableOpacity
-              style={styles.registerButton}
-              onPress={() =>
-                
-                this.writeToDb()
-              }
-            >
-              <Text style={styles.registerButtonText}>set lock</Text>
-            </TouchableOpacity>
-            </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.setLockModal}
+      >
+        <View style={styles.scrollview}>
+          <Text style={styles.label}>Set Lock </Text>
+          <TextInput
+            style={styles.formInput}
+            placeholder={"set lock"}
+            maxLength={12}
+            onChangeText={(text) => {
+              this.setState({
+                lock: text,
+              });
+            }}
+          />
+          <TouchableOpacity
+            style={styles.registerButton}
+            onPress={() => this.writeToDb()}
+          >
+            <Text style={styles.registerButtonText}>set lock</Text>
+          </TouchableOpacity>
+        </View>
       </Modal>
-    )}
- 
+    );
+  };
 
-    writeToDb=()=>{
-      firebase
+  writeToDb = () => {
+    firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.emailId, this.state.password)
       .then(() => {
@@ -79,40 +76,35 @@ export default class WelcomeScreen extends Component {
           contact: this.state.contact,
           email_id: this.state.emailId,
           address: this.state.address,
-          lockId : this.state.lock
+          lockId: this.state.lock,
         });
         return Alert.alert("User Added Successfully", "", [
           {
             text: "OK",
-            onPress: () =>{ 
-         
+            onPress: () => {
               // this.setState({ isModalVisible: false })
-              this.setState({setLockModal : false })
+              this.setState({ setLockModal: false });
               this.props.navigation.navigate("ChatScreen");
-          }
-            
-          }
+            },
+          },
         ]);
-       
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         return Alert.alert(errorMessage);
       });
-        // this.setState({setLockModal : false })
-    
+    // this.setState({setLockModal : false })
+  };
+  userSignUp = (emailId, password, confirmPassword) => {
+    if (password !== confirmPassword) {
+      return Alert.alert("password doesn't match\nCheck your password.");
+    } else {
+      this.setState({ isModalVisible: false });
+      this.setState({ setLockModal: true });
     }
-    userSignUp = (emailId, password, confirmPassword) => {
-      if (password !== confirmPassword) {
-        return Alert.alert("password doesn't match\nCheck your password.");
-      } else {
-        this.setState({ isModalVisible: false })
-        this.setState({setLockModal : true })
-      }
-     
-    }
+  };
 
   userLogin = (emailId, password) => {
     firebase
@@ -121,7 +113,7 @@ export default class WelcomeScreen extends Component {
       .then(() => {
         this.props.navigation.navigate("ChatScreen");
       })
-      .catch(error => {
+      .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
         return Alert.alert(errorMessage);
@@ -145,9 +137,9 @@ export default class WelcomeScreen extends Component {
               style={styles.formInput}
               placeholder={"First Name"}
               maxLength={12}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 this.setState({
-                  firstName: text
+                  firstName: text,
                 });
               }}
             />
@@ -157,9 +149,9 @@ export default class WelcomeScreen extends Component {
               style={styles.formInput}
               placeholder={"Last Name"}
               maxLength={12}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 this.setState({
-                  lastName: text
+                  lastName: text,
                 });
               }}
             />
@@ -170,9 +162,9 @@ export default class WelcomeScreen extends Component {
               placeholder={"Contact"}
               maxLength={10}
               keyboardType={"numeric"}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 this.setState({
-                  contact: text
+                  contact: text,
                 });
               }}
             />
@@ -182,9 +174,9 @@ export default class WelcomeScreen extends Component {
               style={styles.formInput}
               placeholder={"Address"}
               multiline={true}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 this.setState({
-                  address: text
+                  address: text,
                 });
               }}
             />
@@ -194,9 +186,9 @@ export default class WelcomeScreen extends Component {
               style={styles.formInput}
               placeholder={"Email"}
               keyboardType={"email-address"}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 this.setState({
-                  emailId: text
+                  emailId: text,
                 });
               }}
             />
@@ -206,9 +198,9 @@ export default class WelcomeScreen extends Component {
               style={styles.formInput}
               placeholder={"Password"}
               secureTextEntry={true}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 this.setState({
-                  password: text
+                  password: text,
                 });
               }}
             />
@@ -218,9 +210,9 @@ export default class WelcomeScreen extends Component {
               style={styles.formInput}
               placeholder={"Confrim Password"}
               secureTextEntry={true}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 this.setState({
-                  confirmPassword: text
+                  confirmPassword: text,
                 });
               }}
             />
@@ -273,9 +265,9 @@ export default class WelcomeScreen extends Component {
               placeholder="abc@example.com"
               placeholderTextColor="gray"
               keyboardType="email-address"
-              onChangeText={text => {
+              onChangeText={(text) => {
                 this.setState({
-                  emailId: text
+                  emailId: text,
                 });
               }}
             />
@@ -284,9 +276,9 @@ export default class WelcomeScreen extends Component {
               secureTextEntry={true}
               placeholder="Enter Password"
               placeholderTextColor="gray"
-              onChangeText={text => {
+              onChangeText={(text) => {
                 this.setState({
-                  password: text
+                  password: text,
                 });
               }}
             />
@@ -325,7 +317,7 @@ export default class WelcomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#6fc0b8"
+    backgroundColor: "#6fc0b8",
   },
   loginBox: {
     width: "80%",
@@ -333,7 +325,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "#ffffff",
     fontSize: RFValue(20),
-    paddingLeft: RFValue(10)
+    paddingLeft: RFValue(10),
   },
   button: {
     width: "80%",
@@ -346,23 +338,23 @@ const styles = StyleSheet.create({
     marginBottom: RFValue(10),
     shadowOffset: {
       width: 0,
-      height: 8
+      height: 8,
     },
     shadowOpacity: 0.3,
     shadowRadius: 10.32,
-    elevation: 16
+    elevation: 16,
   },
   buttonText: {
     color: "#32867d",
     fontWeight: "200",
-    fontSize: RFValue(20)
+    fontSize: RFValue(20),
   },
   label: {
     fontSize: RFValue(13),
     color: "#717D7E",
     fontWeight: "bold",
     paddingLeft: RFValue(10),
-    marginLeft: RFValue(20)
+    marginLeft: RFValue(20),
   },
   formInput: {
     width: "90%",
@@ -373,7 +365,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     paddingBottom: RFValue(10),
     marginLeft: RFValue(20),
-    marginBottom: RFValue(14)
+    marginBottom: RFValue(14),
   },
   registerButton: {
     width: "75%",
@@ -386,56 +378,56 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 8
+      height: 8,
     },
     shadowOpacity: 0.44,
     shadowRadius: 10.32,
     elevation: 16,
-    marginTop: RFValue(10)
+    marginTop: RFValue(10),
   },
   registerButtonText: {
     fontSize: RFValue(23),
     fontWeight: "bold",
-    color: "#fff"
+    color: "#fff",
   },
   cancelButtonText: {
     fontSize: RFValue(20),
     fontWeight: "bold",
     color: "#32867d",
-    marginTop: RFValue(10)
+    marginTop: RFValue(10),
   },
   scrollview: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   },
   signupView: {
     flex: 0.05,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   signupText: {
     fontSize: RFValue(20),
     fontWeight: "bold",
-    color: "#32867d"
+    color: "#32867d",
   },
   santaView: {
     flex: 0.85,
     justifyContent: "center",
     alignItems: "center",
-    padding: RFValue(10)
+    padding: RFValue(10),
   },
   santaImage: {
     width: "70%",
     height: "100%",
-    resizeMode: "stretch"
+    resizeMode: "stretch",
   },
   TextInput: {
     flex: 0.5,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   bookImage: {
     width: "100%",
-    height: RFValue(220)
-  }
+    height: RFValue(220),
+  },
 });
